@@ -3,10 +3,5 @@
     "api/webhook.py": {
       "runtime": "python3.9"
     }
-  },
-  "build": {
-    "env": {
-      "PYTHON_ENABLE_PIP_INSTALL": "1"
-    }
   }
 }
