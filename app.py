@@ -1,4 +1,4 @@
-```python
+python
 import anthropic
 import os
 from flask import Flask, request
@@ -59,4 +59,3 @@ def webhook():
 
 if __name__ == "__main__":
     app.run(port=5000)
-```
