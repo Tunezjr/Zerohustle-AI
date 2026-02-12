@@ -1,6 +1,4 @@
-
-
-```python
+python
 import anthropic
 
 client = anthropic.Anthropic(api_key="your-api-key")
@@ -39,4 +37,3 @@ while True:
     else:
         print(response.content[0].text)
         break
-```
