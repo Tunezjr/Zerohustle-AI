@@ -44,6 +44,10 @@ def run_agent(user_message):
         else:
             return response.content[0].text
 
+@app.route("/")
+def index():
+    return "Zerohustle is running", 200
+
 @app.route("/webhook", methods=["POST"])
 def webhook():
     incoming_msg = request.values.get("Body", "")
