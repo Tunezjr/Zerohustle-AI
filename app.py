@@ -1,15 +1,16 @@
 ```python
 import anthropic
+import os
 from flask import Flask, request
 from twilio.rest import Client
 
 app = Flask(__name__)
 
 AGENT_NAME = "Zerohustle"
-ANTHROPIC_CLIENT = anthropic.Anthropic(api_key="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")
-TWILIO_ACCOUNT_SID = "ACc12484146287ce1f256fe8148367d63b"
-TWILIO_AUTH_TOKEN = "18f0ed70d8dcc33a77c3b571b3aaf8c2"
-TWILIO_WHATSAPP_NUMBER = "whatsapp:+16405002689"
+ANTHROPIC_CLIENT = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_KEY"))
+TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN")
+TWILIO_WHATSAPP_NUMBER = os.environ.get("TWILIO_WHATSAPP_NUMBER")
 
 twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
