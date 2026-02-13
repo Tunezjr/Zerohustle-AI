@@ -3,7 +3,7 @@ import anthropic
 
 client = anthropic.Anthropic(api_key="your-api-key")
 
-AGENT_NAME = "Zerohustle"
+AGENT_NAME = "Tunez"
 
 tools = [
     {
@@ -23,7 +23,7 @@ messages = [{"role": "user", "content": "Check this text: 'Buy now or you'll reg
 
 while True:
     response = client.messages.create(
-        model="claude-sonnet-4-5-20250929",
+        model="claude-opus-4-5-20250929",
         max_tokens=1024,
         system=f"You are {AGENT_NAME}, an AI agent that polices language in other agents' outputs.",
         tools=tools,
