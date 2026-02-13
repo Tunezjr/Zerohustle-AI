@@ -130,10 +130,11 @@ def post_tweet_browser(content):
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
-        page.goto("https://x.com/login")
-        page.fill("input[name='text']", username)
+        page.goto("https://x.com/i/flow/login")
+page.wait_for_selector("input[name='text']", timeout=60000)
+page.fill("input[name='text']", username)
         page.press("input[name='text']", "Enter")
-        page.wait_for_timeout(2000)
+        page.wait_for_timeout(4000)
 
         page.fill("input[name='password']", password)
         page.press("input[name='password']", "Enter")
@@ -142,7 +143,7 @@ def post_tweet_browser(content):
         page.goto("https://x.com/compose/tweet")
         page.fill("div[role='textbox']", content)
         page.click("div[data-testid='tweetButtonInline']")
-        page.wait_for_timeout(2000)
+        page.wait_for_timeout(4000)
 
         browser.close()
 
