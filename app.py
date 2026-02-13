@@ -34,6 +34,7 @@ def index():
 def webhook():
     incoming_msg = request.values.get("Body", "")
     sender = request.values.get("From", "")
+    print("Sender value:", sender)
     reply = run_agent(incoming_msg)
     twilio_client.messages.create(
         from_=TWILIO_WHATSAPP_NUMBER,
