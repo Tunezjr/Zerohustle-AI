@@ -18,6 +18,36 @@ TWILIO_WHATSAPP_NUMBER = os.environ.get("TWILIO_WHATSAPP_NUMBER")
 
 twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
+def read_url(url):
+    from playwright.sync_api import sync_playwright
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page()
+        page.goto(url, timeout=60000)
+        page.wait_for_load_state("networkidle")
+        content = page.content()
+        browser.close()
+
+    return content[:15000]  # prevent massive token overload
+
+def browse_url(url):
+    from playwright.sync_api import sync_playwright
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page()
+        page.goto(url, timeout=60000)
+        page.wait_for_load_state("networkidle")
+
+        text = page.evaluate("""
+            () => document.body.innerText
+        """)
+
+        browser.close()
+
+    return text[:15000]
+
 TOOLS = [
     {
         "type": "function",
@@ -31,6 +61,18 @@ TOOLS = [
                 },
                 "required": ["content"]
             }
+        }
+    },
+    {
+        "type": "function",
+        "name": "browse_url",
+        "description": "Open a webpage and extract visible text",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "url": {"type": "string"}
+            },
+            "required": ["url"]
         }
     }
 ]
@@ -83,14 +125,14 @@ Always sound in control.
     msg = response.choices[0].message
 
     if msg.tool_calls:
-        tool_call = msg.tool_calls[0]
-        args = json.loads(tool_call.function.arguments)
+    tool_call = msg.tool_calls[0]
+    args = json.loads(tool_call.function.arguments)
 
-        if tool_call.function.name == "post_tweet_browser":
-            result = post_tweet_browser(**args)
-            return result
+    if tool_call.function.name == "post_tweet_browser":
+        return post_tweet_browser(**args)
 
-    return msg.content
+    if tool_call.function.name == "browse_url":
+        return browse_url(**args)
 
 @app.route("/")
 def index():
