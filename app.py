@@ -18,6 +18,24 @@ TWILIO_WHATSAPP_NUMBER = os.environ.get("TWILIO_WHATSAPP_NUMBER")
 
 twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
+TOOLS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "post_tweet_browser",
+            "description": "Post a tweet using browser automation",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "content": {"type": "string"}
+                },
+                "required": ["content"]
+            }
+        }
+    }
+]
+
+
 import json
 
 def run_agent(user_message):
@@ -131,19 +149,3 @@ def post_tweet_browser(content):
         browser.close()
 
     return "Tweet posted via browser."
-TOOLS = [
-    {
-        "type": "function",
-        "function": {
-            "name": "post_tweet_browser",
-            "description": "Post a tweet using browser automation",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "content": {"type": "string"}
-                },
-                "required": ["content"]
-            }
-        }
-    }
-]
