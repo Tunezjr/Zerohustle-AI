@@ -86,3 +86,31 @@ def post_tweet(content):
 
     client.create_tweet(text=content)
     return "Tweet posted."
+from playwright.sync_api import sync_playwright
+import os
+
+def post_tweet_browser(content):
+    username = os.getenv("TWITTER_USERNAME")
+    password = os.getenv("TWITTER_PASSWORD")
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page()
+
+        page.goto("https://x.com/login")
+        page.fill("input[name='text']", username)
+        page.press("input[name='text']", "Enter")
+        page.wait_for_timeout(2000)
+
+        page.fill("input[name='password']", password)
+        page.press("input[name='password']", "Enter")
+        page.wait_for_timeout(3000)
+
+        page.goto("https://x.com/compose/tweet")
+        page.fill("div[role='textbox']", content)
+        page.click("div[data-testid='tweetButtonInline']")
+        page.wait_for_timeout(2000)
+
+        browser.close()
+
+    return "Tweet posted via browser."
