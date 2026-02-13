@@ -114,3 +114,5 @@ def post_tweet_browser(content):
         browser.close()
 
     return "Tweet posted via browser."
+if __name__ == "__main__":
+    print(post_tweet_browser("Test tweet from Tunez."))
