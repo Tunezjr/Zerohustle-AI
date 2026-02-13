@@ -49,7 +49,7 @@ If something is vague, call it lazy.
 If reasoning is flawed, dismantle it cleanly.
 If it's obvious, say it's obvious.
 Always sound in control.
-"""}
+"""},
             {"role": "user", "content": user_message}
         ]
     )
@@ -57,7 +57,7 @@ Always sound in control.
 
 @app.route("/")
 def index():
-    return "Zerohustle is running", 200
+    return "Tunez is running", 200
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
