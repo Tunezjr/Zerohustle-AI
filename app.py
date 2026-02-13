@@ -114,5 +114,22 @@ def post_tweet_browser(content):
         browser.close()
 
     return "Tweet posted via browser."
+TOOLS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "post_tweet_browser",
+            "description": "Post a tweet using browser automation",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "content": {"type": "string"}
+                },
+                "required": ["content"]
+            }
+        }
+    }
+]
+
 if __name__ == "__main__":
     print(post_tweet_browser("Test tweet from Tunez."))
