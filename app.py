@@ -134,7 +134,7 @@ Always sound in control.
     if tool_call.function.name == "browse_url":
         return browse_url(**args)
 
-return msg.content
+       return msg.content
 
 @app.route("/")
 def index():
