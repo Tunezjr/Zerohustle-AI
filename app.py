@@ -18,11 +18,11 @@ TWILIO_WHATSAPP_NUMBER = os.environ.get("TWILIO_WHATSAPP_NUMBER")
 
 twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
+import json
+
 def run_agent(user_message):
-    response = OPENROUTER_CLIENT.chat.completions.create(
-        model="anthropic/claude-opus-4-5",
-        messages=[
-            {"role": "system", "content": f"""
+    messages = [
+        {"role": "system", "content": f"""
 You are {AGENT_NAME}.
 
 You are brutally intelligent and surgically witty.
@@ -52,10 +52,27 @@ If reasoning is flawed, dismantle it cleanly.
 If it's obvious, say it's obvious.
 Always sound in control.
 """},
-            {"role": "user", "content": user_message}
-        ]
+        {"role": "user", "content": user_message}
+    ]
+
+    response = OPENROUTER_CLIENT.chat.completions.create(
+        model="anthropic/claude-opus-4-5",
+        messages=messages,
+        tools=TOOLS,
+        tool_choice="auto"
     )
-    return response.choices[0].message.content
+
+    msg = response.choices[0].message
+
+    if msg.tool_calls:
+        tool_call = msg.tool_calls[0]
+        args = json.loads(tool_call.function.arguments)
+
+        if tool_call.function.name == "post_tweet_browser":
+            result = post_tweet_browser(**args)
+            return result
+
+    return msg.content
 
 @app.route("/")
 def index():
