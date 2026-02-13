@@ -109,8 +109,6 @@ def webhook():
     )
     return "OK", 200
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
 def post_tweet(content):
     client = tweepy.Client(
         consumer_key=os.getenv("TWITTER_API_KEY"),
@@ -149,3 +147,6 @@ def post_tweet_browser(content):
         browser.close()
 
     return "Tweet posted via browser."
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8080)
