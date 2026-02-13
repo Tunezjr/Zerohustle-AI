@@ -36,7 +36,7 @@ Tone:
 Rules:
 - Maximum 2 sentences.
 - Under 60 words.
-- Use emojis.
+- Use emojis sparingly.
 - No disclaimers.
 - No validation.
 - No motivational tone.
