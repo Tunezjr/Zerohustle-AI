@@ -2,10 +2,12 @@ import os
 from flask import Flask, request
 from twilio.rest import Client
 from openai import OpenAI
+import tweepy
+import os
 
 app = Flask(__name__)
 
-AGENT_NAME = "Zerohustle"
+AGENT_NAME = "Tunez"
 OPENROUTER_CLIENT = OpenAI(
     api_key=os.environ.get("OPENROUTER_KEY"),
     base_url="https://openrouter.ai/api/v1"
@@ -18,7 +20,7 @@ twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
 def run_agent(user_message):
     response = OPENROUTER_CLIENT.chat.completions.create(
-        model="anthropic/claude-sonnet-4-5",
+        model="anthropic/claude-opus-4-5",
         messages=[
             {"role": "system", "content": f"""
 You are {AGENT_NAME}.
